@@ -5,3 +5,4 @@ from .models import *
 
 admin.site.register(Score)
 admin.site.register(AverageValue)
+admin.site.register(Account)

@@ -12,4 +12,7 @@ urlpatterns=[
     path('api/admin/setAverageValue/<str:value>',views.setAverageValue,name="setAverageValue"),
     path('api/admin/getAverageValue/<str:pk>',views.getAverageValue,name="setAverageValue"),
     path('api/admin/winningValue/',views.getWinningValue,name="getWinningValue"),
+    path('api/admin/getAccounts/',views.getAccount,name="getAccount"),
+    path('api/admin/addAccounts/',views.addAccount,name="addAccount"),
+    path('api/admin/setAccounts/',views.setAccount,name="setAccount"),
 ]

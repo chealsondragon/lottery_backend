@@ -23,3 +23,13 @@ class AverageValue(models.Model):
     def __str__(self):
         return str(self.averageValue)
 
+
+class Account(models.Model):
+    telegram = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    phonenumber = models.CharField(max_length=200, null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return str(self.name)

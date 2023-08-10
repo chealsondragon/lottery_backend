@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Score,AverageValue
+from .models import Score,AverageValue, Account
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
@@ -40,6 +40,12 @@ class UserSerializerWithToken(UserSerializer):
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
+        fields = '__all__'
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
         fields = '__all__'
 
 

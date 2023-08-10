@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from .serializers import UserSerializer, UserSerializerWithToken,ScoreSerializer,AverageValueSerializer
+from .serializers import UserSerializer, UserSerializerWithToken,ScoreSerializer,AverageValueSerializer, AccountSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -19,7 +19,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import status
 
 
-from base.models import Score, AverageValue
+from base.models import Score, AverageValue, Account
 import random
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -132,3 +132,47 @@ def getWinningValue(request):
     
     selNum = random.randrange(490*10)
     return Response(thislist[selNum]*5)
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getAccount(request):
+    account = Account.objects.all()
+    serializer = AccountSerializer(account, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def addAccount(request):
+    datas = request.data
+    accounts = datas['accountsdata']
+    i=0
+    for i in range(len(accounts)):
+        account = Account.objects.create(
+            name = accounts[i]['Name'],
+            telegram = accounts[i]['Telegram'],
+            phonenumber = accounts[i]['Phonenumber'],
+        )
+        account.save()
+    
+    account = Account.objects.all()
+    serializer = AccountSerializer(account, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def setAccount(request):    
+    account = Account.objects.all().delete()
+    datas = request.data
+    accounts = datas['accountsdata']
+    i=0
+    for i in range(len(accounts)):
+        account = Account.objects.create(
+            name = accounts[i]['Name'],
+            telegram = accounts[i]['Telegram'],
+            phonenumber = accounts[i]['Phonenumber'],
+        )
+        account.save()    
+    account = Account.objects.all()
+    serializer = AccountSerializer(account, many=True)
+    return Response(serializer.data)
